@@ -2,14 +2,14 @@
 
 ## Overview
 
-This project aims to build an AI-powered support agent API using Langchain's LLM and HCAT models. It serves as a middleware for companies who need an automated support system. The support agent not only interacts with the internal customer to provide knowledge base information but also creates tickets in Jira Service Management when needed.
+This project aims to build a multi-platform, AI-powered support agent API using Langchain's LLM and HCAT models. It serves as middleware for companies requiring an automated, intelligent support system capable of ticket generation across various helpdesk services and messaging platforms.
 
 ## Features
 
-- **User Dashboard**: For users to integrate their knowledge base.
-- **Multi-Platform Support**: Integration with Jira Service Management and WhatsApp.
-- **AI-Powered**: Utilizes Langchain LLM and HCAT models for natural language understanding.
-- **Ticketing System**: Automatically generates support tickets with provided information.
+- **User Dashboard**: Allows users to integrate their knowledge base.
+- **Multi-Platform Support**: Integration with multiple helpdesk services like Jira, and messaging platforms like WhatsApp, Microsoft Teams, and Slack.
+- **AI-Powered**: Utilizes Langchain's LLM and HCAT models for natural language understanding.
+- **Ticketing System**: Automatically generates support tickets across different platforms based on user input.
 
 ## Technology Stack
 
@@ -18,11 +18,11 @@ This project aims to build an AI-powered support agent API using Langchain's LLM
 
 ## How It Works
 
-1. **User Registration**: Companies can register and gain access to a dashboard.
-2. **Knowledge Base Integration**: Users can integrate their existing knowledge base with the support agent.
-3. **Platform Integration**: Connect with platforms like Jira Service Management and WhatsApp.
-4. **AI Interactions**: AI agent responds to internal customer queries based on the connected knowledge base.
-5. **Ticket Generation**: If the AI agent cannot resolve an issue, it will prompt to generate a Jira ticket.
+1. **User Registration**: Companies register to access a dashboard.
+2. **Knowledge Base Integration**: Users can connect their existing knowledge base.
+3. **Multi-Platform Integration**: Seamless connection with helpdesk and messaging platforms.
+4. **AI Interactions**: AI agent responds to internal customer queries via the integrated knowledge base.
+5. **Multi-Platform Ticket Generation**: Creates tickets in various helpdesk systems if queries are unresolved.
 
 ## Coming Soon
 
