@@ -1,6 +1,6 @@
 const { ReadableStream: ReadableStreamPolyfill } = require('web-streams-polyfill');
 global.ReadableStream = ReadableStreamPolyfill;
-require('dotenv').config({ path: '../.env' }); // Ajusta la ruta relativa según sea necesario
+require('dotenv').config(); 
 
 const { createClient } = require('@supabase/supabase-js');
 const { OpenAIEmbeddings } = require('@langchain/openai');
