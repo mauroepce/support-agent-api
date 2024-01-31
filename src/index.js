@@ -1,10 +1,9 @@
-const { ReadableStream: ReadableStreamPolyfill } = require('web-streams-polyfill');
-global.ReadableStream = ReadableStreamPolyfill;
-console.log('entró');
+
+
+
 document.getElementById("form").addEventListener("submit", (e) => {
-    console.log("hola");
     e.preventDefault()
-    progressConversation().then(resolve => console.log('llego'))
+    progressConversation()
 })
 
 async function progressConversation() {
@@ -13,7 +12,6 @@ async function progressConversation() {
     const question = userInput.value
     userInput.value = ''
 
-    console.log(userInput);
     // add human message
     const newHumanSpeechBubble = document.createElement('div')
     newHumanSpeechBubble.classList.add('speech', 'speech-human')

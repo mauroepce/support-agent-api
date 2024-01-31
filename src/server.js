@@ -8,7 +8,7 @@ app.use(express.static(path.join(__dirname, '.')))
 app.use(express.json()) // Middleware to parse json
 
 app.post('/chat', async (req, res) => {
-  const userQuery = req.body.userQuery
+  const userQuery = req.body.query
   const response = await main(userQuery)
   res.json({ reply: response })
 })
