@@ -7,6 +7,7 @@ const { PromptTemplate } = require("langchain/prompts");
 const { StringOutputParser } = require('langchain/schema/output_parser');
 const { RunnableSequence, RunnablePassthrough } = require('langchain/schema/runnable');
 const retriever = require('./utils/retriever');
+const formatConvHistory = require('./utils/formatConvHistory');
 
 
 const openAIApiKey = process.env.OPENAI_API_KEY
@@ -15,16 +16,17 @@ const llm = new ChatOpenAI({ openAIApiKey })
 
 const main = async (userQuery) => {
     try {
+
+        const convHistory = []
         
-        const standaloneQuestionTemplate = 'Given a question, convert it to a standalone question. Question: {question} standalone question:'
+        const standaloneQuestionTemplate = `Given a question, Analyzes if the question has already been asked in this conversation history: (${formatConvHistory(convHistory)})if so, respond cordially that the question has just been answered, and if you have any doubts about it, otherwise. Question: {question} standalone question:`
         
         const standaloneQuestionPrompt = PromptTemplate.fromTemplate(standaloneQuestionTemplate)
 
         const concept = `Birdi es una app marketplace de compra y venta mucho más seguro, cómodo y fácil de usar que las soluciones existentes. A diferencia de otras plataformas, Birdi ha creado su propio sistema eficiente de logística de última milla, conectando una flota de transportistas o repartidores con nuestros usuarios.
-        ¡Es seguro! Reducimos las estafas mediante un procedimiento único que nuestros repartidores deben cumplir cada vez que retiran y entregan un producto. 
-        ¡Es Increíble! Ahora comprador y vendedor pueden elegir la hora y el día disponibles para el retiro y entrega de manera muy sencilla sin tener que moverse de donde esten.`
+        `
 
-        const answerTemplate = `You are a helpful and enthusiastic support bot who can answer a given question about Birdi (${concept}) app based on the context provided. Try to find the answer in the context. If you really don't know the answer, say "I'm sorry, I don't know the answer to that." And direct the questioner to email help@sbirdi.com. Don't try to make up an answer. Always speak as if you were chatting to a friend.
+        const answerTemplate = `You are a helpful and enthusiastic support bot who can answer a given question about Birdi app (${concept}) based on the context provided. Try to find the answer in the context and make it shorter  and concise. If you really don't know the answer, say "I'm sorry, I don't know the answer to that." And direct the questioner to email help@sbirdi.com. Don't try to make up an answer. Always speak as if you were chatting to a friend.
         context: {context}
         question: {question}
         asnwer:
@@ -68,6 +70,10 @@ const main = async (userQuery) => {
             question: userQuery
         })
         // retrieve End Here
+        convHistory.push(userQuery)
+        convHistory.push(response)
+        const formatHistory = formatConvHistory(convHistory)
+        console.log(formatHistory);
 
         return response
 
