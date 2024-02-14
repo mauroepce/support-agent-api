@@ -4,12 +4,14 @@ const { main } = require('./supportChat')
 const app = express()
 
 // Sirve los archivos estáticos desde la carpeta 'src'
-app.use(express.static(path.join(__dirname, '.')))
+// app.use(express.static(path.join(__dirname, '.')))
+app.use(express.static('public'))
 app.use(express.json()) // Middleware to parse json
 
 app.post('/chat', async (req, res) => {
   const userQuery = req.body.query
   const response = await main(userQuery)
+  console.log(response);
   res.json({ reply: response })
 })
 
