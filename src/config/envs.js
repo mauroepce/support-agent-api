@@ -1,4 +1,4 @@
-require('dotenv').config({ path: '../.env' })
+require('dotenv').config()
 
 module.exports = {
   sbApiKey: process.env.SUPABASE_API_KEY,
