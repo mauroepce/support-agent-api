@@ -13,21 +13,30 @@ const formatConvHistory = require('./utils/formatConvHistory');
 const openAIApiKey = process.env.OPENAI_API_KEY
 const llm = new ChatOpenAI({ openAIApiKey })
 
+const convHistory = []
 
 const main = async (userQuery) => {
     try {
-
-        const convHistory = []
         
-        const standaloneQuestionTemplate = `Given a question, Analyzes if the question has already been asked in this conversation history: (${formatConvHistory(convHistory)})if so, respond cordially that the question has just been answered, and if you have any doubts about it, otherwise. Question: {question} standalone question:`
+        const standaloneQuestionTemplate = `Given some conversation history (if any) and a question, convert the question to a standalone question
+        conversation history: {conv_history}
+        question: {question} 
+        standalone question:`
         
         const standaloneQuestionPrompt = PromptTemplate.fromTemplate(standaloneQuestionTemplate)
 
         const concept = `Birdi es una app marketplace de compra y venta mucho más seguro, cómodo y fácil de usar que las soluciones existentes. A diferencia de otras plataformas, Birdi ha creado su propio sistema eficiente de logística de última milla, conectando una flota de transportistas o repartidores con nuestros usuarios.
         `
 
-        const answerTemplate = `You are a helpful and enthusiastic support bot who can answer a given question about Birdi app (${concept}) based on the context provided. Try to find the answer in the context and make it shorter  and concise. If you really don't know the answer, say "I'm sorry, I don't know the answer to that." And direct the questioner to email help@sbirdi.com. Don't try to make up an answer. Always speak as if you were chatting to a friend.
+        const answerTemplate = `Como bot de soporte entusiasta y útil, puedo responder preguntas sobre la app Birdi (${concept}) con base en el contexto y el historial de conversación. Ten en cuenta lo siguiente antes de responder:
+        1.- Si ya se respondió, indica que ya se ha contestado y pregunta cómo podemos ayudar si aún hay dudas.
+        2.- Busca dar una respuesta breve y precisa usando el contexto.
+        3.- Si no se encuentra en el contexto, revisa el historial de la conversación.
+        4.- Si desconoces la respuesta, di "Lo siento, no tengo la respuesta a eso" y sugiere contactar a help@birdi.com.
+        5.- No inventes respuestas.
+        6.- Habla como si estuvieras conversando con un amigo.
         context: {context}
+        conversation history: {conv_history}
         question: {question}
         asnwer:
         `
@@ -60,20 +69,22 @@ const main = async (userQuery) => {
             },
             {
                 context: retrieverChain,
-                question: ({ original_input }) => original_input.question
+                question: ({ original_input }) => original_input.question,
+                conv_history: ({ original_input }) => original_input.conv_history
             },
             answerChain
 
         ])
         
         const response = await chain.invoke({
-            question: userQuery
+            question: userQuery,
+            conv_history: formatConvHistory(convHistory)
         })
         // retrieve End Here
         convHistory.push(userQuery)
         convHistory.push(response)
-        const formatHistory = formatConvHistory(convHistory)
-        console.log(formatHistory);
+
+        console.log('convHistory', formatConvHistory(convHistory));
 
         return response
 
