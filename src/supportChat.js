@@ -11,7 +11,10 @@ const formatConvHistory = require('./utils/formatConvHistory');
 
 
 const openAIApiKey = process.env.OPENAI_API_KEY
-const llm = new ChatOpenAI({ openAIApiKey })
+const llm = new ChatOpenAI({ 
+    openAIApiKey,
+    model: "gpt-4-1106-preview"
+})
 
 const convHistory = []
 
