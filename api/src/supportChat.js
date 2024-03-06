@@ -87,8 +87,6 @@ const main = async (userQuery) => {
         convHistory.push(userQuery)
         convHistory.push(response)
 
-        console.log('convHistory', formatConvHistory(convHistory));
-
         return response
 
     } catch (error) {
